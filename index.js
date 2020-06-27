@@ -365,17 +365,27 @@ The function should console.log 50 chunks of HTML code that match the structure 
 ‼️ You do **NOT** need to get these to display on your page, but you can copy and paste the result into your HTML file if you'd like to see what that would look like. */
 
 function getHTML(data) {
-  for (const element in data) {
-    let objectType = typeof data[element];
+  for (const index in data) {
+    let artist = data[index];
+    let { name, bio, wikipedia } = artist;
 
-    let htmlCode = data[element].outerHTML;
-    if (htmlCode !== undefined) {
-      console.log(htmlCode);
-    }
+    const htmlCode = `<div id="artist">
+    <div class="image">
+        <img src="./assets/${name
+          .split(" ")
+          .join("-")}.jpg"/ alt="1 sample image from the artist ${name}.">
+    </div>
+    <div class = "name">
+       <a href="${wikipedia}">${name}</a>
+    </div>
+    <div class = "bio">${bio}</div>
+    </div>`;
+
+    console.log(htmlCode);
   }
 }
 
-getHTML(document.getElementsByClassName("artist"));
+getHTML(artists);
 
 /* STRETCH 2: Create a function called `randomize` that takes a data array as an argument and returns a the same array in a randomized order. */
 
