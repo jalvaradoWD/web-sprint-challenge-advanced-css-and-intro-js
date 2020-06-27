@@ -365,21 +365,59 @@ The function should console.log 50 chunks of HTML code that match the structure 
 ‼️ You do **NOT** need to get these to display on your page, but you can copy and paste the result into your HTML file if you'd like to see what that would look like. */
 
 function getHTML(data) {
-  for (const artist of data) {
-    const keyNames = [];
-    for (const key in artist) {
-      keyNames.push(key);
+  for (const element in data) {
+    let objectType = typeof data[element];
+
+    let htmlCode = data[element].outerHTML;
+    if (htmlCode !== undefined) {
+      console.log(htmlCode);
     }
-    
   }
 }
 
-getHTML(artists);
+getHTML(document.getElementsByClassName("artist"));
 
 /* STRETCH 2: Create a function called `randomize` that takes a data array as an argument and returns a the same array in a randomized order. */
 
-function randomize(/* Code here */) {
-  /* Code here */
+function randomize(dataArray) {
+  let clonedArray = [...dataArray];
+  let randomizedArray = [];
+
+  for (let i = 0; i < dataArray.length; i++) {
+    let arrayLength = clonedArray.length;
+    let randomIndexSelector = Math.floor(Math.random() * arrayLength);
+
+    let randomPickedArtist = clonedArray.splice(randomIndexSelector, 1);
+    randomizedArray.push(...randomPickedArtist);
+  }
+
+  return randomizedArray;
 }
 
+console.log(randomize(artists));
+
 /* STRETCH 3: Use advanced array methods (.map, .reduce, .filer) to refactor your MVP code (create an array of all artists born in the 1900s with .filter, for example) */
+
+const newGet20s = (artistArray) => {
+  return artistArray.filter(({ years }) => {
+    const [born, death] = years.split(" - ");
+    let bornCondition = Number(born) >= 1900 && Number(born) <= 2000;
+    let deathCondition = Number(death) >= 1900 && Number(death) <= 2000;
+
+    return bornCondition && deathCondition;
+  });
+};
+
+console.log(newGet20s(artists));
+
+const newRemoveArtist = (array, artistIndex) => {
+  return array.filter((artist, index) => index !== artistIndex);
+};
+
+console.log(newRemoveArtist(artists, 1));
+
+const newLotsOfArt = (artistArray) => {
+  return artistArray.filter(({ paintings }) => paintings > 100);
+};
+
+console.log(newLotsOfArt(artists));
